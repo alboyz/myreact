@@ -1,14 +1,27 @@
 import Image from "./components/Image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./assets/css/style.css";
 
 function FuntionApp() {
   const [title] = useState("Click Image");
   const [isShowing, setIsshowing] = useState(false);
+  const [didMount, setdidMount] = useState(false);
+  const monuntRef = useRef(false);
 
+  //component did  Mount Only
   useEffect(() => {
+    setdidMount(true);
     console.log("app mounted");
-  });
+  }, []);
+
+  //component will update
+  useEffect(() => {
+    if (monuntRef.current) {
+      console.log("App Update");
+    } else {
+      monuntRef.current = true;
+    }
+  }, [isShowing]);
 
   function handleClick() {
     setIsshowing(!isShowing);

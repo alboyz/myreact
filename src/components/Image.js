@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 function Image() {
   //const [myInterval, setmyInterval] = useState(null);
+  
   useEffect(() => {
     console.log("Images comp Mounted");
      const interval = setInterval(() => {
