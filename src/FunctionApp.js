@@ -29,7 +29,7 @@ function FuntionApp() {
 
   return (
     <section className="flex justify-center">
-      {console.log("re-render")};
+      {console.log("re-render")}
       <div className="w-1/2">
         <div className="text-center">
           <div className="my-4">{title}</div>
