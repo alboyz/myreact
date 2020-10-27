@@ -8,6 +8,8 @@ function Image() {
     "https://images.unsplash.com/photo-1476419972179-ac981d01257e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
   ]);
 
+  const [newImageURL, setnewImageURL] = useState("")
+
   function ShowImages() {
     return images.map((image) => {
       return (
@@ -20,9 +22,18 @@ function Image() {
   function handleAdd() {
     setimages([
       ...images,
-      "https://images.unsplash.com/photo-1453951115017-aa1460aa6973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80"
+      newImageURL
+      
+      //"https://images.unsplash.com/photo-1453951115017-aa1460aa6973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80"
+
     ])
+    setnewImageURL("")
     console.log("handleAdd working");
+  }
+
+  //handle change
+  function handleChange(e) {
+    setnewImageURL(e.target.value)
   }
   return (
     <section>
@@ -34,6 +45,8 @@ function Image() {
         <input
           type="text"
           className="border border-gray-800 shadow rounded mr-4"
+          onChange={handleChange}
+          value={newImageURL}
         ></input>
         <button className="p-2 bg-green-600 text-white" onClick={handleAdd}>
           Add Image
