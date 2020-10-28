@@ -14,12 +14,13 @@ function Image() {
     return images.map((image, index) => {
       return (
         <div key={index} className="w-1/3">
-          <img
-            src={image}
-            alt=""
-            width="150"
-            onClick={() => handleRemove(index)}
-          />
+          <div className="relative">
+            <i
+              className="fas fa-times bg-red-300 ml-6 absolute cursor-pointer opacity-25 hover:opacity-100q"
+              onClick={() => handleRemove(index)}
+            ></i>
+            <img src={image} alt="" width="150" />
+          </div>
         </div>
       );
     });
