@@ -9,6 +9,7 @@ function Image() {
   ]);
 
   const [newImageURL, setnewImageURL] = useState("");
+  const [isHovering, setisHovering] = useState(false);
 
   function ShowImages() {
     return images.map((image, index) => {
@@ -16,15 +17,25 @@ function Image() {
         <div key={index} className="w-1/3">
           <div className="relative">
             <i
-              className="fas fa-times bg-red-300 ml-6 absolute cursor-pointer opacity-25 hover:opacity-100q"
+              className={`fas fa-times bg-red-300 ml-6 absolute cursor-pointer opacity-0 hover:opacity-100 ${
+                isHovering ? "opacity-25" : "opacity-0"
+              }`}
               onClick={() => handleRemove(index)}
             ></i>
-            <img src={image} alt="" width="150" />
+            <img
+              src={image}
+              alt=""
+              width="150"
+              onMouseEnter={() => setisHovering(true)}
+              onMouseLeave={() => setisHovering(false)}
+            />
           </div>
         </div>
       );
     });
   }
+  
+
   function handleRemove(index) {
     //you can remove with this way
     //setimages(images.filter((image, i) => i !== index));
@@ -36,6 +47,7 @@ function Image() {
       ...images.slice(index + 1, images.length),
     ]);
   }
+
   function handleAdd() {
     if (newImageURL !== "") {
       setimages([...images, newImageURL]);
