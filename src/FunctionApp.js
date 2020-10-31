@@ -1,4 +1,4 @@
-import Image from "./components/Image";
+import Images from "./components/Images";
 import React, { useState, } from "react";
 import "./assets/css/style.css";
 
@@ -12,7 +12,7 @@ function FuntionApp() {
       <div className="w-1/2">
         <div className="text-center">
           <div className="my-4">{title}</div>
-          <Image />
+          <Images />
         </div>
       </div>
     </section>
