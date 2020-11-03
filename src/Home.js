@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import FuntionApp from "./FunctionApp";
+import FunctionApp from "./FunctionApp"; 
 class Home extends Component {
   render() {
-    return <FuntionApp />;
+    return <FunctionApp />;
   }
 }
 

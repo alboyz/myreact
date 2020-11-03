@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import Image from "./Image";
 
 function Images() {
@@ -9,7 +9,21 @@ function Images() {
     "https://images.unsplash.com/photo-1476419972179-ac981d01257e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
   ]);
 
-  const [newImageURL, setnewImageURL] = useState("");
+  const inputRef = useRef(null);
+  const varRef = useRef(images.length);
+  useEffect(() => {
+    inputRef.current.focus();
+    //console.log(inputRef);
+  });
+  useEffect(() => {
+    varRef.current = varRef.current + 1;
+  });
+  useEffect(() => {
+    console.log("I am Use Effect 1");
+  });
+  useLayoutEffect(() => {
+    console.log("I am Use Effect 2");
+  });
 
   function ShowImages() {
     return images.map((img, index) => (
@@ -22,6 +36,8 @@ function Images() {
     ));
   }
 
+  const [newImageURL, setnewImageURL] = useState("");
+
   function handleRemove(index) {
     //you can remove with this way
     //setimages(images.filter((image, i) => i !== index));
@@ -32,6 +48,7 @@ function Images() {
       ...images.slice(0, index),
       ...images.slice(index + 1, images.length),
     ]);
+    console.log("I am Changing state");
   }
 
   function handleAdd() {
@@ -48,8 +65,11 @@ function Images() {
   function handleChange(e) {
     setnewImageURL(e.target.value);
   }
+
   return (
     <section>
+      {console.log("I am JSX")}
+      <p>Component is update{varRef.current}times</p>
       <div className="flex flex-wrap justify-center">
         <ShowImages />
       </div>
@@ -57,7 +77,9 @@ function Images() {
       <div className="flex justify-center my-5">
         <input
           type="text"
+          ref={inputRef}
           className="border border-gray-800 shadow rounded mr-4 w-full"
+          id="inputBox"
           onChange={handleChange}
           value={newImageURL}
         ></input>
