@@ -18,10 +18,14 @@ function Images() {
   useEffect(() => {
     varRef.current = varRef.current + 1;
   });
+
+  const [myName, setmyName] = useState("alboyz")
   useEffect(() => {
+    
     console.log("I am Use Effect 1");
   });
   useLayoutEffect(() => {
+    setmyName('noob')
     console.log("I am Use Effect 2");
   });
 
@@ -68,7 +72,7 @@ function Images() {
 
   return (
     <section>
-      {console.log("I am JSX")}
+      <p>My Name Is {myName}</p>
       <p>Component is update{varRef.current}times</p>
       <div className="flex flex-wrap justify-center">
         <ShowImages />
