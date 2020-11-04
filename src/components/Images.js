@@ -1,38 +1,36 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import Axios from "axios";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "./Image";
 
-function Images() {
-  //add images
-  const [images, setimages] = useState([
-    "https://images.unsplash.com/photo-1592419044706-39796d40f98c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1311&q=80",
-    "https://images.unsplash.com/photo-1489824904134-891ab64532f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80",
-    "https://images.unsplash.com/photo-1476419972179-ac981d01257e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-  ]);
+export default function Images() {
+  const [images, setimages] = useState([]);
 
   const inputRef = useRef(null);
-  const varRef = useRef(images.length);
+  
   useEffect(() => {
     inputRef.current.focus();
-    //console.log(inputRef);
-  });
-  useEffect(() => {
-    varRef.current = varRef.current + 1;
-  });
+    Axios.get("https://api.unsplash.com/photos/?client_id=IiMyY8MwvjaXE_v4R-X108BBGZi7VNTEjX9ozk4V9dY").then(res=>{
+      setimages(res.data);
+    })
+  }, []);
 
-  const [myName, setmyName] = useState("alboyz")
-  useEffect(() => {
-    
-    console.log("I am Use Effect 1");
-  });
-  useLayoutEffect(() => {
-    setmyName('noob')
-    console.log("I am Use Effect 2");
-  });
+  
 
-  function ShowImages() {
+  const [newImageUrl, setNewImageUrl] = useState("");
+
+  function handleRemove(index) {
+    // setimages(images.filter((image, i) => i !== index));
+    setimages([
+      ...images.slice(0, index),
+      ...images.slice(index + 1, images.length),
+    ]);
+    console.log("I am changing state");
+  }
+
+  function ShowImage() {
     return images.map((img, index) => (
       <Image
-        image={img}
+        image={img.urls.small}
         handleRemove={handleRemove}
         index={index}
         key={index}
@@ -40,65 +38,45 @@ function Images() {
     ));
   }
 
-  const [newImageURL, setnewImageURL] = useState("");
-
-  function handleRemove(index) {
-    //you can remove with this way
-    //setimages(images.filter((image, i) => i !== index));
-    //OR
-
-    //Notes: How Spread Operator Work
-    setimages([
-      ...images.slice(0, index),
-      ...images.slice(index + 1, images.length),
-    ]);
-    console.log("I am Changing state");
-  }
-
   function handleAdd() {
-    if (newImageURL !== "") {
-      setimages([...images, newImageURL]);
-      setnewImageURL("");
-      console.log("image add");
-    } else {
-      console.log("image not add");
+    if (newImageUrl !== "") {
+      setimages([newImageUrl, ...images]);
+      setNewImageUrl("");
     }
   }
 
-  //handle change
-  function handleChange(e) {
-    setnewImageURL(e.target.value);
+  function handleChange(event) {
+    setNewImageUrl(event.target.value);
   }
 
   return (
     <section>
-      <p>My Name Is {myName}</p>
-      <p>Component is update{varRef.current}times</p>
       <div className="flex flex-wrap justify-center">
-        <ShowImages />
+        <ShowImage />
       </div>
-
-      <div className="flex justify-center my-5">
-        <input
-          type="text"
-          ref={inputRef}
-          className="border border-gray-800 shadow rounded mr-4 w-full"
-          id="inputBox"
-          onChange={handleChange}
-          value={newImageURL}
-        ></input>
-        <button
-          disabled={newImageURL !== ""}
-          className={`p-2 text-white ${
-            newImageURL !== "" ? "bg-green-600" : "bg-green-300"
-          }`}
-          onClick={handleAdd}
-        >
-          Add Image
-        </button>
+      <div className="flex justify-between my-5">
+        <div className="w-full">
+          <input
+            type="text"
+            id="inputBox"
+            ref={inputRef}
+            className="p-2 border border-gray-800 shadow rounded w-full"
+            value={newImageUrl}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="">
+          <button
+            disabled={newImageUrl === ""}
+            className={`p-2 text-white ml-2 ${
+              newImageUrl !== "" ? "bg-green-600" : "bg-green-300"
+            }`}
+            onClick={handleAdd}
+          >
+            Add
+          </button>
+        </div>
       </div>
     </section>
   );
 }
-
-export default Images;
