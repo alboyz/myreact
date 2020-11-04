@@ -29,7 +29,7 @@ class ClickImage extends Component {
           {this.state.isShowing ? (
             <img
               src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1311&q=80"
-              alt="image"
+              alt="gambar "
             />
           ) : null}
         </div>

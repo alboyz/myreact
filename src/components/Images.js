@@ -6,15 +6,15 @@ export default function Images() {
   const [images, setimages] = useState([]);
 
   const inputRef = useRef(null);
-  
+
   useEffect(() => {
     inputRef.current.focus();
-    Axios.get("https://api.unsplash.com/photos/?client_id=IiMyY8MwvjaXE_v4R-X108BBGZi7VNTEjX9ozk4V9dY").then(res=>{
+    Axios.get(
+       `${process.env.REACT_APP_UNPLASH_URL}?client_id=${process.env.REACT_APP_UNSPLASH_KEY}`
+    ).then((res) => {
       setimages(res.data);
-    })
+    });
   }, []);
-
-  
 
   const [newImageUrl, setNewImageUrl] = useState("");
 
