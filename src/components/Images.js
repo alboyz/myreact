@@ -4,13 +4,12 @@ import Image from "./Image";
 
 export default function Images() {
   const [images, setimages] = useState([]);
-
   const inputRef = useRef(null);
 
   useEffect(() => {
     inputRef.current.focus();
     Axios.get(
-       `${process.env.REACT_APP_UNPLASH_URL}?client_id=${process.env.REACT_APP_UNSPLASH_KEY}`
+      `${process.env.REACT_APP_UNPLASH_URL}?client_id=${process.env.REACT_APP_UNSPLASH_KEY}`,
     ).then((res) => {
       setimages(res.data);
     });
@@ -30,7 +29,7 @@ export default function Images() {
   function ShowImage() {
     return images.map((img, index) => (
       <Image
-        image={img.urls.small}
+        image={img.urls.regular}
         handleRemove={handleRemove}
         index={index}
         key={index}
@@ -51,7 +50,7 @@ export default function Images() {
 
   return (
     <section>
-      <div className="flex flex-wrap justify-center">
+      <div className="gap-0" style={{ columnCount: 4 }}>
         <ShowImage />
       </div>
       <div className="flex justify-between my-5">

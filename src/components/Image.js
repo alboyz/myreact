@@ -4,7 +4,7 @@ export default function Image({ index, image, handleRemove }) {
   const [isHovering, setisHovering] = useState(false);
 
   return (
-    <div className="w-1/3">
+    <div className="p-1 m-2 border flex justify-center">
       <div
         className="relative"
         onMouseEnter={() => setisHovering(true)}
@@ -16,7 +16,7 @@ export default function Image({ index, image, handleRemove }) {
           }`}
           onClick={() => handleRemove(index)}
         ></i>
-        <img src={image} alt="" width="150" />
+        <img src={image} alt="" width="100%" height="auto" />
       </div>
     </div>
   );
