@@ -1,18 +1,14 @@
-import Axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import Image from "./Image";
+import UseFetchImage from "../utils/hooks/UseFetchImage";
 
 export default function Images() {
-  const [images, setimages] = useState([]);
+  const [page, setpage] = useState(1);
+  const [images, setimages] = UseFetchImage(page);
   const inputRef = useRef(null);
 
   useEffect(() => {
     inputRef.current.focus();
-    Axios.get(
-      `${process.env.REACT_APP_UNPLASH_URL}?client_id=${process.env.REACT_APP_UNSPLASH_KEY}`,
-    ).then((res) => {
-      setimages(res.data);
-    });
   }, []);
 
   const [newImageUrl, setNewImageUrl] = useState("");
@@ -53,6 +49,13 @@ export default function Images() {
       <div className="gap-0" style={{ columnCount: 4 }}>
         <ShowImage />
       </div>
+      <button
+        onClick={() => {
+          setpage(page + 1);
+        }}
+      >
+        Load More
+      </button>
       <div className="flex justify-between my-5">
         <div className="w-full">
           <input
