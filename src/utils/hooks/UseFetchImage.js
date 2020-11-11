@@ -5,12 +5,17 @@ const secret = process.env.REACT_APP_UNSPLASH_KEY;
 
 export default function UseFetchImage(page) {
   const [images, setImages] = useState([]);
+  const [errors, setError] = useState([]);
 
   useEffect(() => {
-    Axios.get(`https://api.unsplash.com/photos/?client_id=${secret}&page=${page}`).then((res) => {
-      setImages([...images, ...res.data]);
-    });
+    Axios.get(`https://api.unsplash.com/photos/?client_id=${secret}&page=${page}`)
+      .then((res) => {
+        setImages([...images, ...res.data]);
+      })
+      .catch((e) => {
+        setError(e.response.data.errors);
+      });
   }, [page]);
 
-  return [images, setImages];
+  return [images, setImages, errors];
 }
