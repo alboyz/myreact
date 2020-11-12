@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Image from "./Image";
 import UseFetchImage from "../utils/hooks/UseFetchImage";
+import Loading from "./Loading";
 
 export default function Images() {
   const [page, setpage] = useState(1);
-  const [images, setImages, errors] = UseFetchImage(page);
+  const [images, setImages, errors, setLoading] = UseFetchImage(page);
 
   function handleRemove(index) {
     // setimages(images.filter((image, i) => i !== index));
@@ -26,13 +27,16 @@ export default function Images() {
     ));
   }
 
-  return (
+
+  return setLoading ? (
+    <Loading/>
+  ) :(
     <section>
       {errors.length > 0 ? (
         <div className="flex h-screen">
           <p className="m-auto">{errors[0]}</p>
         </div>
-      ) : null  }
+      ) : null}
 
       <div className="gap-0" style={{ columnCount: 4 }}>
         <ShowImage />
