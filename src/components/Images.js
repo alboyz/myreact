@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "./Image";
 import UseFetchImage from "../utils/hooks/UseFetchImage";
 import Loading from "./Loading";
+import UseScroll from "../utils/hooks/UseScrooll";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Images() {
   const [page, setpage] = useState(1);
   const [images, setImages, errors, setLoading] = UseFetchImage(page);
+  const scrollPosition = UseScroll();
+
+  useEffect(() => {
+    if (scrollPosition === document.body.offsetHeight - window.innerHeight) {
+      setpage(page + 1);
+      console.log("I am in bottom");
+    }
+  }, [scrollPosition]);
 
   function handleRemove(index) {
     // setimages(images.filter((image, i) => i !== index));
@@ -17,20 +27,25 @@ export default function Images() {
   }
 
   function ShowImage() {
-    return images.map((img, index) => (
-      <Image
-        image={img.urls.regular}
-        handleRemove={handleRemove}
-        index={index}
-        key={index}
-      />
-    ));
+    return (
+      <InfiniteScroll
+        dataLength={images.length}
+        next={() => setpage + 1}
+        className="flex flex-wrap"
+      >
+        {images.map((img, index) => (
+          <Image
+            image={img.urls.regular}
+            handleRemove={handleRemove}
+            index={index}
+            key={index}
+          />
+        ))}
+      </InfiniteScroll>
+    );
   }
 
-
-  return setLoading ? (
-    <Loading/>
-  ) :(
+  return (
     <section>
       {errors.length > 0 ? (
         <div className="flex h-screen">
@@ -38,18 +53,9 @@ export default function Images() {
         </div>
       ) : null}
 
-      <div className="gap-0" style={{ columnCount: 4 }}>
-        <ShowImage />
-      </div>
-      {errors.length > 0 ? null : (
-        <button
-          onClick={() => {
-            setpage(page + 1);
-          }}
-        >
-          Load More
-        </button>
-      )}
+      <ShowImage />
+
+      {setLoading && <Loading />}
     </section>
   );
 }
