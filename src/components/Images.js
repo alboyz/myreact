@@ -7,8 +7,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Images() {
   const [page, setpage] = useState(1);
-  const [images, setImages, errors, setLoading] = UseFetchImage(page);
+  const [term, setSearchTerm] = useState(null);
+  const [images, setImages, errors, setLoading] = UseFetchImage(page, term);
   const scrollPosition = UseScroll();
+  
 
   useEffect(() => {
     if (scrollPosition === document.body.offsetHeight - window.innerHeight) {
@@ -45,13 +47,25 @@ export default function Images() {
     );
   }
 
+  function handleInput(e) {
+    setSearchTerm(e.target.value);
+  }
+
   return (
     <section>
-      {errors.length > 0 ? (
+      <div className="my-5">
+        <input
+          type="text"
+          onChange={handleInput}
+          className="w-full border rounded p-2"
+          placeholder="Search Photos Here"
+        ></input>
+      </div>
+      {errors.length > 0 && (
         <div className="flex h-screen">
           <p className="m-auto">{errors[0]}</p>
         </div>
-      ) : null}
+      )}
 
       <ShowImage />
 
