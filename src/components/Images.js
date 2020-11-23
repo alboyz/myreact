@@ -4,21 +4,13 @@ import UseFetchImage from "../utils/hooks/UseFetchImage";
 import Loading from "./Loading";
 import UseScroll from "../utils/hooks/UseScrooll";
 import InfiniteScroll from "react-infinite-scroll-component";
+import useDebounce from "../utils/hooks/useDebounce";
 
 export default function Images() {
   const [page, setpage] = useState(1);
   const [term, setSearchTerm] = useState(null);
   const [images, setImages, errors, setLoading] = UseFetchImage(page, term);
-  const scrollPosition = UseScroll();
   
-
-  useEffect(() => {
-    if (scrollPosition === document.body.offsetHeight - window.innerHeight) {
-      setpage(page + 1);
-      console.log("I am in bottom");
-    }
-  }, [scrollPosition]);
-
   function handleRemove(index) {
     // setimages(images.filter((image, i) => i !== index));
     setImages([
@@ -33,6 +25,7 @@ export default function Images() {
       <InfiniteScroll
         dataLength={images.length}
         next={() => setpage + 1}
+        hasMore={true}
         className="flex flex-wrap"
       >
         {images.map((img, index) => (
@@ -47,8 +40,12 @@ export default function Images() {
     );
   }
 
+  
+    const debounce = useDebounce();
+  
   function handleInput(e) {
-    setSearchTerm(e.target.value);
+    const text = e.target.value;
+    debounce(() => setSearchTerm(text));
   }
 
   return (

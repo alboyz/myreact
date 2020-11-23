@@ -21,16 +21,19 @@ export default function UseFetchImage(page, term) {
         setLoading(false);
       });
   }, [page]);
+  
   useEffect(() => {
     if (term === null) return;
     Axios.get(
       `${url}/search/photos?client_id=${secret}&page=${page}&query=${term}`,
     )
       .then((res) => {
+        setLoading(false);
         setImages([...res.data.results]);
       })
 
       .catch(() => {
+        setLoading(false);
         setError(["Oopps Something Error"]);
       });
   }, [term]);
