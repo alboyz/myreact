@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import Image from "./Image";
 import UseFetchImage from "../utils/hooks/UseFetchImage";
 import Loading from "./Loading";
-import UseScroll from "../utils/hooks/UseScrooll";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useDebounce from "../utils/hooks/useDebounce";
 
 export default function Images() {
   const [page, setpage] = useState(1);
   const [term, setSearchTerm] = useState(null);
-  const [images, setImages, errors, setLoading] = UseFetchImage(page, term);
+  const [images, setImages, errors, loading] = UseFetchImage(page, term);
   
   function handleRemove(index) {
     // setimages(images.filter((image, i) => i !== index));
@@ -24,7 +23,7 @@ export default function Images() {
     return (
       <InfiniteScroll
         dataLength={images.length}
-        next={() => setpage + 1}
+        next={() => setpage(page+1)}
         hasMore={true}
         className="flex flex-wrap"
       >
@@ -66,7 +65,7 @@ export default function Images() {
 
       <ShowImage />
 
-      {setLoading && <Loading />}
+      {loading && <Loading />}
     </section>
   );
 }
