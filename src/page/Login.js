@@ -4,6 +4,8 @@ import firebase from "../config/firebase";
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [form, setForm] = useState({email:"", password:""});
+
 
   function handleButtonLogin(e) {
     if (loading) return;
@@ -11,14 +13,21 @@ export default function Login() {
     e.preventDefault();
     firebase
       .auth()
-      .signInWithEmailAndPassword("mopek921@gmail.com", "passwor")
+      .signInWithEmailAndPassword(form.email, form.password)
       .then((res) => {
         console.log(res);
         setLoading(false);
+        setError("")
       })
-      .catch((e) => {
-        setError(e.message);
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
       });
+  }
+
+  function handleInput(e) {
+    setForm({...form,[e.target.name]: e.target.value})
+    console.log(e.target.value, e.target.name);
   }
   return (
     <div className="flex h-screen bg-gray-200">
@@ -32,14 +41,20 @@ export default function Login() {
             <input
               type="email"
               className="w-full p-2 rounded shadow text-black"
+              name="email"
               placeholder="Email or Username"
+              value={form.email}
+              onChange={handleInput}
             ></input>
           </div>
           <div>
             <input
               type="password"
               className="w-full p-2 rounded shadow mt-5 text-black"
+              name="password"
               placeholder="password"
+              value={form.password}
+              onChange={handleInput}
             ></input>
           </div>
           <button className="p-2 w-full rounded shadow bg-gradient-to-r from-yellow-300 to-yellow-600 text-black mt-5">
