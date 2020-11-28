@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import firebase from "../config/firebase";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({email:"", password:""});
-
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [login, setLogin] = useState(false);
 
   function handleButtonLogin(e) {
     if (loading) return;
@@ -16,8 +17,9 @@ export default function Login() {
       .signInWithEmailAndPassword(form.email, form.password)
       .then((res) => {
         console.log(res);
+        setLogin(true)
         setLoading(false);
-        setError("")
+        setError("");
       })
       .catch((error) => {
         setError(error.message);
@@ -26,14 +28,17 @@ export default function Login() {
   }
 
   function handleInput(e) {
-    setForm({...form,[e.target.name]: e.target.value})
+    setForm({ ...form, [e.target.name]: e.target.value });
     console.log(e.target.value, e.target.name);
   }
+
+  if (login) return <Redirect to="/" />;
+
   return (
     <div className="flex h-screen bg-gray-200">
       <div className="m-auto w-1/3 text-white flex flex-warp justify-center shadow-lg rounded-lg bg-gradient-to-r from-indigo-900 to-indigo-300">
         <form className="m-5 w-10/12" onSubmit={handleButtonLogin}>
-          {(error !== "") && <p>{error}</p>}
+          {error !== "" && <p>{error}</p>}
           <h1 className="w-full text-4xl tracking-widest text-center my-6">
             Login
           </h1>
