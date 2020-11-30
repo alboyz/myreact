@@ -9,6 +9,11 @@ export default function UseFetchImage(page, term) {
   const [errors, setError] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setLoading(true);
+    fetch();
+  }, [page, term]);
+
   function fetch() {
     const url = term === null ? "photos?" : `search/photos?query=${term}&`;
     Axios.get(`${api}/${url}client_id=${secret}&page=${page}&`)
@@ -31,11 +36,6 @@ export default function UseFetchImage(page, term) {
     setImages([...images, ...res.data]);
     setLoading(false);
   }
-
-  useEffect(() => {
-    setLoading(true);
-    fetch();
-  }, [page, term]);
 
   return [images, setImages, errors, loading];
 }

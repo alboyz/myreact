@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {  useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/firebase";
+import AppContext from "../store/AppContext";
 
 export default function Navbar() {
-  const [login, setLogin] = useState(false);
+ const [ login, user] = useContext(AppContext)
   const history = useHistory();
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setLogin(true);
-      }
-      //console.log(user);
-    });
-  }, []);
-
+ 
   function logout() {
     firebase
       .auth()
       .signOut()
       .then((res) => {
         history.replace("/login");
-        setLogin(false)
+      
       })
       .catch((e) => {
         console.log(e.respone.data);
