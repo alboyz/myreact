@@ -6,6 +6,7 @@ export default function GuestRoute(props) {
   const [login] = useContext(AppContext);
 
   if (!login) return <Route {...props} />;
+  
 
   return <Redirect to="/" />;
 }
