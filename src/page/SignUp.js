@@ -1,9 +1,8 @@
 import React from "react";
-import { Formik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 
 export default function SignUp() {
-
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
@@ -25,16 +24,13 @@ export default function SignUp() {
                 Sign Up Here
               </h1>
               <div>
-                <input
+                <Field
+                  name="email"
                   type="email"
                   className="w-full p-2 rounded shadow text-black"
                   placeholder="Email or Username"
-                  {...formik.getFieldProps("email")}
                 />
-
-                {formik.touched.email && formik.errors.email ? (
-                  <p>{formik.errors.email}</p>
-                ) : null}
+                <ErrorMessage name="email" />
               </div>
 
               <div>
