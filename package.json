@@ -9,13 +9,15 @@
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.0",
     "firebase": "^8.1.1",
+    "formik": "^2.2.5",
     "postcss-cli": "^8.3.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-infinite-scroll-component": "^5.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^1.9.6",
+    "yup": "^0.32.1"
   },
   "scripts": {
     "build:css": "postcss src/assets/css/tailwind.css -o src/assets/css/style.css",
